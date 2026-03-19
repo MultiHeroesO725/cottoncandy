@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MultiHéroes - Portal Principal</title>
+
+    <link rel="icon" type="image/png" href="favicon.jpg">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Paleta y variables monocromáticas */
+        :root {
+            --bg-color: #f8fafc; /* slate-50 */
+            --pattern-color: #f1f5f9; /* slate-100 */
+        }
+
+        body {
+            background-color: var(--bg-color);
+            /* Patrón de fondo */
+            background-image: repeating-linear-gradient(
+                45deg,
+                var(--pattern-color) 25%,
+                transparent 25%,
+                transparent 75%,
+                var(--pattern-color) 75%,
+                var(--pattern-color)
+            ), repeating-linear-gradient(
+                45deg,
+                var(--pattern-color) 25%,
+                var(--bg-color) 25%,
+                var(--bg-color) 75%,
+                var(--pattern-color) 75%,
+                var(--pattern-color)
+            );
+            background-position: 0 0, 10px 10px;
+            background-size: 20px 20px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Animaciones personalizadas */
+        @keyframes popIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.8) translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .animate-pop-in {
+            opacity: 0;
+            animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        /* Brillo estilo al hacer hover en las tarjetas */
+        .glossy-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glossy-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.8) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            transform: rotate(30deg) translateY(-100%);
+            transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .glossy-card:hover::after {
+            transform: rotate(30deg) translateY(100%);
+        }
+
+        /* Ajuste de scrollbar estilo limpio */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+
+        /* Ocultar elementos si la imagen carga correctamente usando JS */
+        .hidden-fallback {
+            display: none !important;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-slate-800 flex flex-col items-center">
+
+    <header class="w-full max-w-5xl mx-auto pt-16 pb-12 px-6 flex flex-col items-center justify-center relative z-10">
+        <div class="animate-float flex flex-col items-center">
+
+            <div class="relative w-24 h-24 mb-4 transform rotate-3 hover:rotate-6 transition-transform duration-300">
+
+                <img src="icon.png" alt="Icono MultiHéroes" id="main-icon-img" class="w-full h-full object-contain drop-shadow-lg hidden" onload="this.classList.remove('hidden'); document.getElementById('main-icon-fallback').classList.add('hidden-fallback');" onerror="this.classList.add('hidden'); document.getElementById('main-icon-fallback').classList.remove('hidden-fallback');">
+
+                <div id="main-icon-fallback" class="w-full h-full bg-slate-800 text-white rounded-3xl flex items-center justify-center shadow-lg shadow-slate-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" />
+                    </svg>
+                </div>
+            </div>
+
+            <div class="relative min-h-[60px] flex items-center justify-center mb-2">
+
+                <img src="logo.png" alt="MultiHéroes Logo" id="main-logo-img" class="max-w-[300px] sm:max-w-[400px] max-h-[200px] object-contain drop-shadow-md hidden" onload="this.classList.remove('hidden'); document.getElementById('main-logo-fallback').classList.add('hidden-fallback');" onerror="this.classList.add('hidden'); document.getElementById('main-logo-fallback').classList.remove('hidden-fallback');">
+
+                <h1 id="main-logo-fallback" class="text-5xl md:text-6xl font-black tracking-tighter text-slate-900 drop-shadow-sm text-center">
+                    MultiHéroes
+                </h1>
+            </div>
+
+            <p class="mt-2 text-slate-500 font-medium text-lg tracking-wide uppercase shadow-sm px-4 py-1 bg-white/60 backdrop-blur-sm rounded-full border border-slate-200">
+                Portal Principal
+            </p>
+        </div>
+    </header>
+
+    <main class="w-full max-w-6xl mx-auto px-6 relative z-10 flex-1">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+
+            <a href="https://www.youtube.com/@MultiHeroesOficial" class="glossy-card group block bg-white p-4 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.12)] transition-all duration-300 transform hover:-translate-y-2 focus:outline-none focus:ring-4 focus:ring-slate-300 animate-pop-in" style="animation-delay: 0.1s;">
+                <div class="overflow-hidden rounded-3xl aspect-video bg-slate-100 mb-5 relative border border-slate-100">
+
+                    <img src="subs/yt.png" alt="Proyecto 1" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" onerror="this.src='https://placehold.co/1280x720/e2e8f0/64748b?text=Sitio+1'" />
+                </div>
+                <div class="flex items-center justify-between px-2 pb-2">
+                    <h2 class="text-2xl font-bold text-slate-800 tracking-tight">Canal Oficial</h2>
+                    <div class="w-10 h-10 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center group-hover:bg-slate-800 group-hover:text-white transition-colors duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </div>
+            </a>
+
+            <a href="https://multiheroes.itch.io" class="glossy-card group block bg-white p-4 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.12)] transition-all duration-300 transform hover:-translate-y-2 focus:outline-none focus:ring-4 focus:ring-slate-300 animate-pop-in" style="animation-delay: 0.2s;">
+                <div class="overflow-hidden rounded-3xl aspect-video bg-slate-100 mb-5 relative border border-slate-100">
+                    <img src="subs/itch.png" alt="Proyecto 2" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" onerror="this.src='https://placehold.co/1280x720/e2e8f0/64748b?text=Sitio+2'" />
+                </div>
+                <div class="flex items-center justify-between px-2 pb-2">
+                    <h2 class="text-2xl font-bold text-slate-800 tracking-tight">Itch.io</h2>
+                    <div class="w-10 h-10 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center group-hover:bg-slate-800 group-hover:text-white transition-colors duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </div>
+            </a>
+
+            <a href="https://gmu.multiheroes.org" class="glossy-card group block bg-white p-4 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.12)] transition-all duration-300 transform hover:-translate-y-2 focus:outline-none focus:ring-4 focus:ring-slate-300 animate-pop-in" style="animation-delay: 0.3s;">
+                <div class="overflow-hidden rounded-3xl aspect-video bg-slate-100 mb-5 relative border border-slate-100">
+                    <img src="subs/gmu.png" alt="Proyecto 3" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" onerror="this.src='https://placehold.co/1280x720/e2e8f0/64748b?text=Sitio+3'" />
+                </div>
+                <div class="flex items-center justify-between px-2 pb-2">
+                    <h2 class="text-2xl font-bold text-slate-800 tracking-tight">Gacha Multiversal Ultra +</h2>
+                    <div class="w-10 h-10 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center group-hover:bg-slate-800 group-hover:text-white transition-colors duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </div>
+            </a>
+
+            <a href="https://privacy.multiheroes.org" class="glossy-card group block bg-white p-4 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.12)] transition-all duration-300 transform hover:-translate-y-2 focus:outline-none focus:ring-4 focus:ring-slate-300 animate-pop-in" style="animation-delay: 0.4s;">
+                <div class="overflow-hidden rounded-3xl aspect-video bg-slate-100 mb-5 relative border border-slate-100">
+                    <img src="subs/privacy.jpg" alt="Proyecto 4" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" onerror="this.src='https://placehold.co/1280x720/e2e8f0/64748b?text=Sitio+4'" />
+                </div>
+                <div class="flex items-center justify-between px-2 pb-2">
+                    <h2 class="text-2xl font-bold text-slate-800 tracking-tight">Política de Privacidad</h2>
+                    <div class="w-10 h-10 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center group-hover:bg-slate-800 group-hover:text-white transition-colors duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </div>
+            </a>
+
+        </div>
+    </main>
+
+    <div class="mt-20 mb-8 w-full max-w-sm flex items-center gap-4 opacity-50 px-6 relative z-10">
+        <div class="h-px bg-slate-300 flex-1"></div>
+        <div class="w-2 h-2 rounded-full bg-slate-400"></div>
+        <div class="w-2 h-2 rounded-full bg-slate-400"></div>
+        <div class="w-2 h-2 rounded-full bg-slate-400"></div>
+        <div class="h-px bg-slate-300 flex-1"></div>
+    </div>
+
+    <footer class="w-full text-center pb-8 pt-2 relative z-10">
+        <p class="text-slate-400 text-sm font-medium tracking-wide">
+            &copy; <span id="current-year"></span> MultiHéroes. Todos los derechos reservados.
+        </p>
+        <script>
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+        </script>
+    </footer>
+
+</body>
+</html>
